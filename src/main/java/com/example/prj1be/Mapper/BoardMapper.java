@@ -35,4 +35,8 @@ public interface BoardMapper {
                 delete from prj1.board where id =#{id};
         """)
     int deleteById(Integer id);
+
+    //업데이트 인서트 딜리트  int 로
+    //나머지는 select는 필요한 dto --> list , map , javabean
+
 }
