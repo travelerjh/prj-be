@@ -1,6 +1,7 @@
 package com.example.prj1be.Mapper;
 
 import com.example.prj1be.domain.Board;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -24,4 +25,14 @@ public interface BoardMapper {
     """
     )
     List<Board> selectAll();
+
+    @Select("""
+                select * from prj1.board where id= #{id};
+        """)
+    Board selectById(Integer id);
+
+    @Delete("""
+                delete from prj1.board where id =#{id};
+        """)
+    int deleteById(Integer id);
 }
