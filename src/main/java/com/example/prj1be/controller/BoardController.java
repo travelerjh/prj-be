@@ -20,17 +20,13 @@ public class BoardController {
 
     //json으로 받는게 requestBody
     @PostMapping("add")
-    public ResponseEntity add(@RequestBody Board board){
-        System.out.println("board = " + board);
-
-
-        if (service.save(board)){
-            ResponseEntity.ok().build();
-        }else {
-            ResponseEntity.internalServerError().build();
+    public ResponseEntity add(@RequestBody Board board) {
+        if (service.save(board)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.internalServerError().build();
         }
-
-    };
+    }
 
 
 }
