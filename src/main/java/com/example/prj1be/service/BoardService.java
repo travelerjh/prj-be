@@ -47,7 +47,7 @@ public class BoardService {
     }
 
 
-    public void update(Board board) {
-        mapper.update(board);
+    public boolean update(Board board) {
+       return mapper.update(board) ==1;
     }
 }
