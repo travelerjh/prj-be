@@ -1,10 +1,7 @@
 package com.example.prj1be.Mapper;
 
 import com.example.prj1be.domain.Board;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -39,4 +36,14 @@ public interface BoardMapper {
     //업데이트 인서트 딜리트  int 로
     //나머지는 select는 필요한 dto --> list , map , javabean
 
+
+
+    @Update("""
+        UPDATE board
+        SET title = #{title},
+            content = #{content},
+            writer = #{writer}
+        WHERE id = #{id}
+        """)
+    int update(Board board);
 }
