@@ -18,4 +18,9 @@ public interface MemberMapper {
                     select id from prj1.member where id =#{id};
     """)
     String selectId(String id);
+
+    @Select("""
+                   select email from member where email=#{email};
+     """)
+    String selectEmail(String email);
 }
