@@ -5,15 +5,18 @@ import com.example.prj1be.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberMapper mapper;
 
-     public void add(Member member){
+     public boolean add(Member member){
         mapper.insert(member);
-    }
+         return false;
+     }
 
 
     public String getId(String id) {
@@ -42,4 +45,12 @@ public class MemberService {
         }
         return true;
     }
+
+    public List<Member> list() {
+        return  mapper.selectAll();
+     }
+
+    public Member getMember(String id) {
+      return   mapper.selectById(id);
+     }
 }
