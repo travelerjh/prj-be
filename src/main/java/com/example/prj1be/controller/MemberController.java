@@ -64,6 +64,17 @@ public class MemberController {
         return  ResponseEntity.ok(member);
     }
 
+    @DeleteMapping
+    public ResponseEntity delete(String id){
+        // TODO: 로그인했는지?  --> 안했으면 401
+        // TODO: 자기정보인지?  --> 아니면 403
+        if(service.deleteid(id))
+        {return ResponseEntity.ok().build();}
+        else {
+            return ResponseEntity.badRequest().build();
+        }
+
+    }
 
 
 
