@@ -14,8 +14,8 @@ public class MemberService {
     private final MemberMapper mapper;
 
      public boolean add(Member member){
-        mapper.insert(member);
-         return false;
+         return mapper.insert(member)==1;
+
      }
 
 
