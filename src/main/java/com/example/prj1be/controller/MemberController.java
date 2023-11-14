@@ -2,6 +2,7 @@ package com.example.prj1be.controller;
 
 import com.example.prj1be.domain.Member;
 import com.example.prj1be.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -103,6 +104,13 @@ public class MemberController {
     }
 
 
+
+    @PostMapping("logout")
+    public void logout(HttpSession session){
+        if(session!=null){
+            session.invalidate();
+        }
+    }
 
 
 
