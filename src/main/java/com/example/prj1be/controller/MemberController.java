@@ -3,8 +3,10 @@ package com.example.prj1be.controller;
 import com.example.prj1be.domain.Member;
 import com.example.prj1be.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
@@ -85,6 +87,24 @@ public class MemberController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
+
+
+    //웹리쿼스트 안에 세션에 어트리뷰트를 추가할수 있따.
+
+    @PostMapping("login")
+    public ResponseEntity login(@RequestBody Member member, WebRequest request){
+        if(service.login(member,request)){
+            return ResponseEntity.ok().build();
+        }else {
+            return ResponseEntity.status(401).build();
+        }
+
+    }
+
+
+
+
 
 
 }

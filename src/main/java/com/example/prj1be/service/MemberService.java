@@ -4,6 +4,8 @@ import com.example.prj1be.Mapper.MemberMapper;
 import com.example.prj1be.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
@@ -67,4 +69,18 @@ public class MemberService {
 
         return mapper.update(member) ==1;
      }
+
+    public boolean login(Member member, WebRequest request) {
+      Member  dbMember=  mapper.selectById(member.getId());
+        if (dbMember !=null){
+            if(dbMember.getPassword().equals(member.getPassword())){
+                dbMember.setPassword("");
+                request.setAttribute("login",dbMember, RequestAttributes.SCOPE_SESSION);
+                //세션을 사용했다.
+                return  true;
+            }
+        }
+        return false;
+     }
+
 }
