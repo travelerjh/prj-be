@@ -9,45 +9,61 @@ import java.util.List;
 public interface MemberMapper {
 
     @Insert("""
-        INSERT  into member(id,password,nickname,email)
-        values (#{id},#{password},#{nickname},#{email})
-    """)
+        INSERT INTO member (id, password, email, nickName)
+        VALUES (#{id}, #{password}, #{email}, #{nickName})
+        """)
     int insert(Member member);
 
     @Select("""
-                    select id from prj1.member where id =#{id};
-    """)
+        SELECT id FROM member
+        WHERE id = #{id}
+        """)
     String selectId(String id);
 
     @Select("""
-                   select email from member where email=#{email};
-     """)
+        SELECT email FROM member
+        WHERE email = #{email}
+        """)
     String selectEmail(String email);
 
     @Select("""
-                select id, password, email, nickname, inserted from prj1.member order by inserted desc ;
+        SELECT id, password, email, nickName, inserted
+        FROM member
+        ORDER BY inserted DESC
         """)
     List<Member> selectAll();
 
     @Select("""
-                select * from prj1.member where id=#{id};
+        SELECT *
+        FROM member
+        WHERE id = #{id}
         """)
     Member selectById(String id);
 
     @Delete("""
-                    delete from member where id=#{id};
-    """)
-    int deletebtId(String id);
+        DELETE FROM member
+        WHERE id = #{id}
+        """)
+    int deleteById(String id);
 
-    @Update(
-            """
-            update member 
-            set
-             password=#{password},nickname=#{nickname},email=#{email}  
-            where id=#{id};
-            """
-    )
-
+    @Update("""
+        <script>
+        UPDATE member
+        SET 
+          <if test="password != ''">
+          password = #{password},
+          </if>
+          email = #{email},
+          nickName = #{nickName}
+        WHERE id = #{id}
+        </script>
+        """)
     int update(Member member);
 
+    @Select("""
+        SELECT nickName
+        FROM member
+        WHERE nickName = #{nickName}
+        """)
+    String selectNickName(String nickName);
 }

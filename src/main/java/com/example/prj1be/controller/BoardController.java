@@ -14,31 +14,25 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/board")
 @RequiredArgsConstructor
-
+@RequestMapping("/api/board")
 public class BoardController {
 
-    //fianl ==> 스프링이 생성자를 만들어라 라는 의미
     private final BoardService service;
 
-    //json으로 받는게 requestBody
     @PostMapping("add")
     public ResponseEntity add(@RequestBody Board board,
-                              @SessionAttribute(value="login",required=false) Member login      ) {
+                              @SessionAttribute(value = "login", required = false) Member login) {
 
-        if(login==null){
+        if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-
-        System.out.println("login = " + login);
-        if(!service.validate(board)){
+        if (!service.validate(board)) {
             return ResponseEntity.badRequest().build();
         }
 
-
-        if (service.save(board , login)) {
+        if (service.save(board, login)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.internalServerError().build();
@@ -46,55 +40,59 @@ public class BoardController {
     }
 
     @GetMapping("list")
-    private List<Board> list(){
+    public List<Board> list() {
         return service.list();
     }
 
     @GetMapping("id/{id}")
-    public Board get(@PathVariable Integer id){
+    public Board get(@PathVariable Integer id) {
         return service.get(id);
     }
 
     @DeleteMapping("remove/{id}")
     public ResponseEntity remove(@PathVariable Integer id,
-                                @SessionAttribute(value="login",required = false)Member login){
-
-        if (login==null){
-            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                                 @SessionAttribute(value = "login", required = false) Member login) {
+        if (login == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401
         }
 
-        if (!service.hasAccess(id,login)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        if (!service.hasAccess(id, login)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 403
         }
 
-
-        if (service.remove(id)){
+        if (service.remove(id)) {
             return ResponseEntity.ok().build();
-        }else {
+        } else {
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @PutMapping("edit")
     public ResponseEntity edit(@RequestBody Board board,
-                               @SessionAttribute(value = "login" ,required = false) Member login ) {
-
-        if(login==null){
-            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();// 401
+                               @SessionAttribute(value = "login", required = false) Member login) {
+        if (login == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401
         }
 
-        if (!service.hasAccess(Integer.valueOf(board.getId()), login)) {
+        if (!service.hasAccess(board.getId() , login)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 403
         }
 
-//        System.out.println("board = " + board);
-      if (service.validate(board)){
-        if ( service.update(board)){
-          return ResponseEntity.ok().build();}else {
-          return ResponseEntity.internalServerError().build();
-        }}else {
-          return ResponseEntity.badRequest().build();
-      }
+        if (service.validate(board)) {
+            if (service.update(board)) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.internalServerError().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
-
 }
+
+
+
+
+
+
+
