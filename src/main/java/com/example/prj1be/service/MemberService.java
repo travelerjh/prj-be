@@ -2,6 +2,7 @@ package com.example.prj1be.service;
 
 import com.example.prj1be.Mapper.BoardMapper;
 import com.example.prj1be.Mapper.MemberMapper;
+import com.example.prj1be.domain.Auth;
 import com.example.prj1be.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -84,6 +85,9 @@ public class MemberService {
 
     public boolean login(Member member, WebRequest request) {
         Member dbMember = mapper.selectById(member.getId());
+
+        List<Auth> auth =mapper.selectAuthById(member.getId());
+        dbMember.setAuth(auth);
 
         if (dbMember != null) {
             if (dbMember.getPassword().equals(member.getPassword())) {
