@@ -129,6 +129,18 @@ public class MemberController {
         }
     }
 
+
+    //서버에서는 세션에 저장되고
+    //프론트에서  컨텍스트에 저장된다.
+
+    @GetMapping("login")
+    public Member login(@SessionAttribute( value = "login" ,required = false)Member login){
+        return login;
+    }
+
+
+
+
 }
 
 
