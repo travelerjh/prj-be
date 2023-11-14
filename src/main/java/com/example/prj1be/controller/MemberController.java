@@ -20,6 +20,8 @@ public class MemberController {
 
     @PostMapping("signup")
     public ResponseEntity signup(@RequestBody Member member) {
+        System.out.println("member = " + member);
+        
         if (service.validate(member)) {
             if (service.add(member)) {
                 return ResponseEntity.ok().build();
