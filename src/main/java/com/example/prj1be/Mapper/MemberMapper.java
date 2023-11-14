@@ -50,5 +50,4 @@ public interface MemberMapper {
 
     int update(Member member);
 
-    void getidpw(Member member);
 }
