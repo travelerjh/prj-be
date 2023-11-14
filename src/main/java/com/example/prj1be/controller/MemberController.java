@@ -4,6 +4,7 @@ import com.example.prj1be.domain.Member;
 import com.example.prj1be.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,7 +69,17 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public ResponseEntity delete(String id){
+    public ResponseEntity delete(String id ,
+                                 @SessionAttribute(value = "login" ,required = false) Member login  ){
+
+        if(login==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //401
+        }
+        if(!service.hasAccess(id,login)){
+            return  ResponseEntity.status(HttpStatus.FORBIDDEN).build();//403
+        }
+
+
         // TODO: 로그인했는지?  --> 안했으면 401
         // TODO: 자기정보인지?  --> 아니면 403
         if(service.deleteid(id))
